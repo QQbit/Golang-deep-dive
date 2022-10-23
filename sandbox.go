@@ -2,25 +2,17 @@ package main
 
 import "fmt"
 
-// address จะเปลี่ยนทุกรอบที่รัน เพราะขึ้นอยู่กับ os จะจัดการว่าให้โปรแกรมของเราไปรันใน section ไหนของ memory
+func fp() *int {
+	//ถ้าเป็นภาษาอื่น local variable ถ้าเกิด function นี้จบการทำงาน function ใน stack memory ตรงนั่น ก็จะถูกลบหมด
+	//แต่ว่า go มี Garbage Collector ที่ค่อยข้างฉลาดแล้วก็รู้ว่า function นี้ return address ของ local variable มานะ
+	x := 4
+	return &x
+}
 func main() {
-	x := 70
-	var p *int
-	fmt.Println("&x", &x) //represent address in memory
-	fmt.Println("&p", &p) //เป็น nil เพราะไม่มีค่า แต่จะต้องมี address ที่ associate มันใน main memory
-	p = &x
-	fmt.Println("p", p)           //0x14000126008
-	fmt.Println("vale of *p", *p) //dereference pointer ก็จะได้ value ของ x ซึ้งก็คือ 70
-	fmt.Println("*(&x)", *&x)     //70
-	/**
-	-------------------------------------------------
-	| variable | address   		|   value   		|
-	-------------------------------------------------
-	| 	 x	   | 0x14000126008	| 	 70				|
-	-------------------------------------------------
-	| 	 p	   | 0x14000120018	| 	 0x14000126008	|
-	-------------------------------------------------
+	x := fp()
+	fmt.Printf("%T\n", x)  // *int pointer of int
+	fmt.Printf("%d\n", *x) // 4
 
-
-	**/
+	a := fp()
+	fmt.Println(a == fp()) // false ทุกครั้งที่เรียกใช้ fp() มันก็จะสร้าง stack ใน memory แล้ว return ตัว local variable อันใหม่มาให้เราเสมอ
 }
