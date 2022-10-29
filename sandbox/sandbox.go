@@ -2,18 +2,17 @@ package main
 
 import (
 	"fmt"
-	weight "weightx" //ทำการ rename package
-	/**https://go.dev/ref/spec#Import_declarations
-	The interpretation of the ImportPath is implementation-dependent but it is typically a substring of the full file name of the compiled package and may be relative to a repository of installed packages.
-	ขึ้นอยู่กับเครื่องมือว่าจะให้ ความหมายของ ImportPath ตรงนี้ยังไง แต่โดยทั่วไปจะเป็น substring ของ fullname ของตัว compiled package นั่นอีกที่ หรือจะเป็น path ของ repository หรือ uri ของ repositiory
-	**/)
+
+	"github.com/QQbit/weight"
+	gl "gitlab.com/kim0x/weight"
+)
 
 func main() {
 	k := weight.KG(1)
-	fmt.Println(weight.KgToLb(k))
+	k2 := gl.KG(.15)
+	fmt.Println(gl.KgToLb(k + k2)) //invalid operation: k + k2 (mismatched types "github.com/QQbit/weight".KG and "gitlab.com/kim0x/weight".KG)
 	/*
-		weight.kgToLb(k) - kgToLb not exported by package weight
-		go จะสามารถใช้งานแบบ public ได้ kgToLb (ตัวหน้าสุด) จะต้องเป็นตัวใหญ่ (capital letter) ถึงจะ export ได้
-		ถ้าเป็นตัวเล็กเราจะไม่สามารถ export สามารถใช้ได้เฉพาะ package ของมันเท่านั่น
+		สรุป ถึงแม้ว่าโค้ดข้างในจะเหมือนกัน ถ้า package ที่ import มันต่างกัน มันก็จะไม่สามารถใช้งานร่วมกันได้
+		ในกรณีที่เป็น type declearation เท่านั่น ถ้าเป็น constant ไม่มีปัญหา เพราะว่า constant จาก math.PI หรือจากอะไรก็ตาม สามารถใช้ร่วมกันได้
 	*/
 }
